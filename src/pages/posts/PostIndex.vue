@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import MyButton from '../../components/button/MyButton.vue';
 import { usePostIndexStore } from '../../store/post/usePostIndexStore.js';
 // import { useMyErrorStore } from '../../store/error/useMyErrorStore.js';
@@ -81,7 +81,7 @@ const getNextPage = async () => {
 // ------------------
 // onBeforeMount(paginationPorcess);
 onBeforeMount(postIndexStore.getPostPagenation);
-
+onBeforeUnmount(postIndexStore.clearPostIndex);
 </script>
 
 <template>  
