@@ -36,7 +36,7 @@ const redirectLogin = () => {
       />
       <MyButton
         v-if="authStore.isLoggedIn"
-        :content="'Sign out'" 
+        :content="'Logout'"
         :color="'black'" 
         :size="'small'"
       />

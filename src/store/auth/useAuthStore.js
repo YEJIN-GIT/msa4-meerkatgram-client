@@ -40,6 +40,21 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
+  const reissue = async () => { // 쿠키는 리쿼스트 해더에 자동으로 담겨서 전송되므로 parameter없음
+    try {
+      const url = '/api/reissue-token';
+
+      const res = await myAxios.post(url);  // 새로운 정보를 저장한다 의미 post
+      const data = res.data.data;
+      accessToken.value = data.accessToken;
+      userInfo.value = data.user;
+      isLoggedIn.value = true;
+    } catch (error) {
+      clearAuthStore();
+      throw error;      
+    }
+  }
+
   return {
     // 1. State
     isLoggedIn,
@@ -51,6 +66,7 @@ export const useAuthStore = defineStore('authStore', () => {
     // 3. Actions
     clearAuthStore,
     login,
+    reissue,
   }
 
 });

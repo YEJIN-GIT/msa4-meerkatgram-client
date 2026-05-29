@@ -5,6 +5,7 @@ import MyButton from '../../components/button/MyButton.vue';
 import MyInput from '../../components/input/MyInput.vue';
 import MyStrikeThroughBehindWord from '../../components/decoration/MyStrikeThroughBehindWord.vue';
 import { useAuthStore } from '../../store/auth/useAuthStore.js';
+import loginValidator from '../../util/validator/domain/auth/loginValidator.js';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -14,9 +15,18 @@ const loginForm = reactive({
 });
 
 const handleSubmit = async () => {
-  // console.log('handleSubmit');
-  await authStore.login(loginForm);
-  router.replace('/posts');
+  // 1. 유효성 검사
+  const resultValidationEmail = loginValidator.email(loginForm.email);
+  const resultValidationPassword = loginValidator.password(loginForm.password);
+
+  if(!resultValidationEmail && !resultValidationPassword) { // JavaScript 에서 빈문자열 null 을 false로 인식한다.
+    // 2. 로그인 처리    
+    await authStore.login(loginForm);
+    router.replace('/posts');    
+  } else {
+    // 유효성 검사 실패
+    alert(`${resultValidationEmail}\n${resultValidationPassword}`);
+  }
 }
 </script>
 
