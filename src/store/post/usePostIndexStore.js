@@ -38,7 +38,7 @@ export const usePostIndexStore = defineStore('postIndex', () => {
       }
     }
   }
-
+  
   return {
     // state
     items,
