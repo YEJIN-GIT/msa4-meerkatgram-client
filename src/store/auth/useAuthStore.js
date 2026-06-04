@@ -66,6 +66,18 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
+  const registration = async (data) => {
+    try {
+      const url = '/api/registration';
+
+      await myAxios.post(url, data);
+      return;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   return {
     // 1. State
     isLoggedIn,
@@ -79,6 +91,7 @@ export const useAuthStore = defineStore('authStore', () => {
     login,
     reissue,
     logout,
+    registration,
   }
 
 });
