@@ -1,5 +1,6 @@
 <script setup>
 import Header from './components/Header.vue';
+import UserInfo from './components/UserInfo.vue';
 import PostIndex from './pages/posts/PostIndex.vue';
 import router from './routes/router.js';
 
@@ -9,6 +10,6 @@ console.log(router.getRoutes())
 
 <template>
   <Header />
-  <hr>  
+  <UserInfo />  
   <router-view></router-view>
 </template>
