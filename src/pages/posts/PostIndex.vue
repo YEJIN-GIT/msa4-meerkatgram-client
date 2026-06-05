@@ -3,6 +3,7 @@ import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import MyButton from '../../components/button/MyButton.vue';
 import { usePostIndexStore } from '../../store/post/usePostIndexStore.js';
 import { useRouter } from 'vue-router';
+import { useMyErrorStore } from '../../store/error/useMyErrorStore.js';
 // import { useMyErrorStore } from '../../store/error/useMyErrorStore.js';
 // import { useRouter } from 'vue-router';
 
@@ -62,6 +63,8 @@ const isLastPage = ref(false);
 
 const router = useRouter();
 const postIndexStore = usePostIndexStore();
+const myErrorStore = useMyErrorStore();
+
 // const myErrorStore = useMyErrorStore();
 // const router = useRouter();
 
@@ -73,9 +76,17 @@ const postIndexStore = usePostIndexStore();
 //   }
 // }
 
+const getPagination = async (page = 1) => {
+  try {
+    await postIndexStore.getPostPagenation(page);
+  } catch (error) {
+    myErrorStore.setErrorInfo(error);
+    router.replace('/error');
+  }
+}
+
 const getNextPage = async () => {
-  // await paginationPorcess(postIndexStore.getNextPageNumber);
-  await postIndexStore.getPostPagenation(postIndexStore.getNextPageNumber);
+  await getPagination(postIndexStore.getNextPageNumber);  
 }
 
 const redirectShow = async (id) => {
@@ -86,7 +97,7 @@ const redirectShow = async (id) => {
 // -- 라이프 사이클
 // ------------------
 // onBeforeMount(paginationPorcess);
-onBeforeMount(postIndexStore.getPostPagenation);
+onBeforeMount(getPagination);
 onBeforeUnmount(postIndexStore.clearPostIndex);
 </script>
 

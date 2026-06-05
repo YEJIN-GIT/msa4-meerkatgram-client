@@ -34,7 +34,7 @@ export const usePostIndexStore = defineStore('postIndex', () => {
         currentPage.value++;
       } catch(error) {
         console.error(error); //TODO : 배포시 제거하기
-        useMyErrorStore().setErrorInfo(error);
+        throw error;
       }
     }
   }

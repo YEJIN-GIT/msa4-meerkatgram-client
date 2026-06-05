@@ -29,14 +29,8 @@ export const useAuthStore = defineStore('authStore', () => {
       isLoggedIn.value = true;
 
     } catch (error) {
-      if(error.response) {  // 레스폰스 데이터가 있는 경우
-        if(error.response.data.code === 'E01') {
-          alert(error.response.data.data);
-          return;
-        }
-      }
-
-      useMyErrorStore().setErrorInfo(error);
+      console.log(error);
+      throw error;
     }
   }
 

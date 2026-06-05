@@ -1,6 +1,5 @@
 <script setup>
 import Header from './components/Header.vue';
-import Main from './components/Main.vue';
 import PostIndex from './pages/posts/PostIndex.vue';
 import router from './routes/router.js';
 
@@ -11,5 +10,5 @@ console.log(router.getRoutes())
 <template>
   <Header />
   <hr>  
-  <Main></Main>
+  <router-view></router-view>
 </template>

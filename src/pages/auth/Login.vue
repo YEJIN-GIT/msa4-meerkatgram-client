@@ -6,9 +6,11 @@ import MyInput from '../../components/input/MyInput.vue';
 import MyStrikeThroughBehindWord from '../../components/decoration/MyStrikeThroughBehindWord.vue';
 import { useAuthStore } from '../../store/auth/useAuthStore.js';
 import loginValidator from '../../util/validator/domain/auth/loginValidator.js';
+import { useMyErrorStore } from '../../store/error/useMyErrorStore.js';
 
 const router = useRouter();
 const authStore = useAuthStore();
+const myErrorStore = useMyErrorStore();
 const loginForm = reactive({
   email: '',
   password: '',
@@ -20,9 +22,21 @@ const handleSubmit = async () => {
   const resultValidationPassword = loginValidator.password(loginForm.password);
 
   if(!resultValidationEmail && !resultValidationPassword) { // JavaScript 에서 빈문자열 null 을 false로 인식한다.
-    // 2. 로그인 처리    
-    await authStore.login(loginForm);
-    router.replace('/posts');    
+    try {
+      // 2. 로그인 처리    
+      await authStore.login(loginForm);
+      router.replace('/posts');      
+    } catch (error) {
+      if(error.response) {  // 레스폰스 데이터가 있는 경우
+        if(error.response.data.code === 'E01') {
+          alert(error.response.data.data);
+          return;
+        }
+      }
+      myErrorStore.setErrorInfo(error);
+      router.replace('/error');
+    }
+
   } else {
     // 유효성 검사 실패
     alert(`${resultValidationEmail}\n${resultValidationPassword}`);
