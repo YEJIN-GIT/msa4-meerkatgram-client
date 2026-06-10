@@ -36,7 +36,6 @@ const handleSubmit = async () => {
 
   // API 게시글 작성 요청
   try {
-    // const url = '/api/posts/store';
     const url = '/api/posts';
 
     const res = await myAxios.post(url, createData);
