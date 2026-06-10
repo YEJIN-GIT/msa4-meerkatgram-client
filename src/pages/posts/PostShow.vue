@@ -11,6 +11,23 @@ const postShowStore = usePostShowStore();
 const authStore = useAuthStore();
 const myErrorStore = useMyErrorStore();
 
+const deletePost = async () => {
+  // 예 경우 삭제 처리
+  try {
+    // TODO: 파일 삭제 처리
+
+    await postShowStore.deletePost(route.params.id);    
+
+    // TODO: 내정보 게시글수 갱신
+
+    // 게시글 목록페이지로 이동
+    router.replace('/posts');
+  } catch (error) {
+    myErrorStore.setErrorInfo(error);
+    router.replace('/error');
+  }
+}
+
 // console.log(route.params.id);
 
 // ------------------
@@ -24,7 +41,7 @@ onBeforeMount(async () => {
     router.replace('/error');
   }
 });
-onBeforeUnmount(postShowStore.ClearPostShow); // 최근 봤던 게시글 상세페이지 잠깐 보이는 현상 방지
+onBeforeUnmount(postShowStore.clearPostShow); // 최근 봤던 게시글 상세페이지 잠깐 보이는 현상 방지
 </script>
 
 <template>
@@ -35,6 +52,7 @@ onBeforeUnmount(postShowStore.ClearPostShow); // 최근 봤던 게시글 상세�
       <div 
         class="delete-icon"
         v-if="postShowStore.post.userId === authStore.userInfo.id"
+        @click="deletePost()"
       ></div>
     </div>
     <div class="like-box">
