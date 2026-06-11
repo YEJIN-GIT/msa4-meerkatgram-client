@@ -1,7 +1,17 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '../store/auth/useAuthStore';
 
+const router = useRouter();
 const authStore = useAuthStore();
+
+const redirectIndex = () => {
+  router.push('/posts');
+}
+
+const redirectCreate = () => {
+  router.push('/posts/create');
+}
 </script>
 
 <template>
@@ -22,10 +32,12 @@ const authStore = useAuthStore();
       <div
         class="bg-image-square redriect-icon-posts-index"
         style="background-image : url('/icons/gallery.png');"
+        @click="redirectIndex()"
       ></div>
       <div
         class="bg-image-square redriect-icon-posts-create"
         style="background-image : url('/icons/plus-sign.png');"
+        @click="redirectCreate()"
       ></div>
       <div
         class="bg-image-square redriect-icon-users-info"

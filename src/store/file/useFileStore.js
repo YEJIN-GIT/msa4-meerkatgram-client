@@ -32,7 +32,32 @@ export const useFileStore = defineStore('fileStore', () => {
     }
   }
 
+  const uploadPost = async (file) => {
+  try {
+    const url = '/api/files/posts';
+  
+    // Form Data 생성
+    const data = new FormData();
+    data.append('file', file);
+  
+    // 헤더의 Content-Type 변경
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  
+    const res = await myAxios.post(url, data, config);
+    return res.data.data.fileUri;    
+      
+    } catch (error) {
+      console.log(error); // TODO: console.log(error); 지우기
+      return null;      
+    }
+  }
+
   return {
     uploadProfile,
+    uploadPost,
   }
 });
